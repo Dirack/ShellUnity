@@ -1,0 +1,75 @@
+#!/bin/bash
+#
+# shellUnity (Shell Script)
+# 
+# Objetivo: Framework de testes unitários para Shell Script.
+# 
+# Site: https://dirack.github.io
+# 
+# Versão 1.0
+# 
+# Programador:  Rodolfo A C Neves (Dirack) 30/10/2020
+# 
+# Email: rodolfo_profissional@hotmail.com
+# 
+# Licença: .
+
+TEST_FAIL(){
+	return 1
+}
+
+TEST_FAIL_MESSAGE(){
+
+	echo "$1"
+	return 1
+}
+
+TEST_PASS(){
+
+	return 0
+}
+
+TEST_PASS_MESSAGE(){
+
+	echo "$1"
+	return 0
+
+}
+
+TEST_MESSAGE(){
+	echo "INFO: $1"
+}
+
+TEST_ASSERT_EQUAL(){
+
+	CONDITION=$(echo "$1==$2" | bc -l)
+       	[ "$CONDITION" == "1" ] && return 0
+	return 1
+}
+
+TEST_ASSERT_NOT_EQUAL(){
+
+	CONDITION=$(echo "$1!=$2" | bc -l)
+        [ "$CONDITION" == "1" ]	&& return 0
+	return 1
+}
+
+TEST_ASSERT_TRUE(){
+
+	CONDITION=$(echo "$1" | bc -l)
+	[ "$CONDITION" == "1" ] && return 0
+	return 1
+}
+
+TEST_ASSERT_FALSE(){
+
+	CONDITION=$(echo "$1" | bc -l)
+	[ "$CONDITION" == "0" ] && return 0
+	return 1
+}
+
+TEST_ASSERT_EQUAL_STRING(){
+
+	[ "$1" == "$2" ] && return 0
+	return 1
+}
