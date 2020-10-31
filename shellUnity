@@ -49,14 +49,19 @@ TEST_UNITY(){
 	
 }
 
+TEST_MESSAGE(){
+
+	echo "$0:$BASH_LINENO:INFO: $1"
+}
+
 TEST_FAIL(){
-	return 1
+	TEST_UNITY 1
 }
 
 TEST_FAIL_MESSAGE(){
 
 	echo "$1"
-	return 1
+	TEST_UNITY 1
 }
 
 TEST_PASS(){
@@ -71,9 +76,6 @@ TEST_PASS_MESSAGE(){
 
 }
 
-TEST_MESSAGE(){
-	echo "INFO: $1"
-}
 
 TEST_ASSERT_EQUAL(){
 

@@ -7,6 +7,7 @@ soma(){
 	echo "$RES"
 }
 
+TEST_MESSAGE "Mensagem qualquer"
 
 # Estes teste irá passar
 TEST_ASSERT_EQUAL 10 "$(soma 1 9)"
