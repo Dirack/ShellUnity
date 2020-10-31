@@ -36,7 +36,7 @@ TEST_UNITY(){
 
 	if [ "$FINISHED_ALL_TESTS_UNITY" == "0" ]
 	then
-		echo -n "$0:$2:teste:"
+		echo -n "$0:$2:$3:"
 	fi
 
 	if [ "$1" == "0" ] 
@@ -78,7 +78,7 @@ TEST_MESSAGE(){
 TEST_ASSERT_EQUAL(){
 
 	CONDITION=$(echo "$1==$2" | bc -l)
-       	[ "$CONDITION" == "1" ] && TEST_UNITY 0 "$BASH_LINENO" || TEST_UNITY 1 "$BASH_LINENO"
+       	[ "$CONDITION" == "1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
 }
 
 TEST_ASSERT_NOT_EQUAL(){
