@@ -9,8 +9,12 @@ soma(){
 
 TEST_MESSAGE "Mensagem qualquer"
 
-# Estes teste irá passar
+# Estes testes irão passar
 TEST_ASSERT_EQUAL 10 "$(soma 1 9)"
+TEST_PASS
+TEST_PASS_MESSAGE "Mensagem passou"
 
-# Este teste irá falhar
+# Estes testes irão falhar
 TEST_ASSERT_EQUAL 2 "$(soma 1 2)"
+TEST_FAIL
+TEST_FAIL_MESSAGE "Mensagem falhou"
