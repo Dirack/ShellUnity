@@ -26,11 +26,11 @@ RESULT_UNITY(){
 	FINISHED_ALL_TESTS_UNITY="1"
 	echo -e "\n-----------------------"
 	echo "$NUMBER_OF_TESTS_UNITY Tests $NUMBER_OF_FAILURES_UNITY Failures $NUMBER_OF_IGNORED_UNITY Ignored"
-	[ "$NUMBER_OF_FAILURES_UNITY" -eq "0" ] && TEST 0 && exit 0
-	TEST 1 && exit 1
+	[ "$NUMBER_OF_FAILURES_UNITY" -eq "0" ] && TEST_UNITY 0 && exit 0
+	TEST_UNITY 1 && exit 1
 }
 
-TEST(){
+TEST_UNITY(){
 
 	NUMBER_OF_TESTS_UNITY=$((NUMBER_OF_TESTS_UNITY+1))
 
@@ -78,8 +78,8 @@ TEST_MESSAGE(){
 TEST_ASSERT_EQUAL(){
 
 	CONDITION=$(echo "$1==$2" | bc -l)
-       	[ "$CONDITION" == "1" ] && TEST 0 && return 0
-	TEST 1 && return 1
+       	[ "$CONDITION" == "1" ] && TEST_UNITY 0 && return 0
+	TEST_UNITY 1 && return 1
 }
 
 TEST_ASSERT_NOT_EQUAL(){
