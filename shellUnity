@@ -20,6 +20,7 @@ NUMBER_OF_TESTS_UNITY="0"
 NUMBER_OF_FAILURES_UNITY="0"
 NUMBER_OF_IGNORED_UNITY="0"
 FINISHED_ALL_TESTS_UNITY="0"
+TEST_IGNORE_UNITY="0"
 
 RESULT_UNITY(){
 	
@@ -33,6 +34,11 @@ RESULT_UNITY(){
 TEST_UNITY(){
 
 	NUMBER_OF_TESTS_UNITY=$((NUMBER_OF_TESTS_UNITY+1))
+	[ "$TEST_IGNORE_UNITY" == "1" ] && {
+		NUMBER_OF_IGNORED_UNITY=$((NUMBER_OF_IGNORED_UNITY+1))
+		echo -e "$0:$2:$3:\033[43mIGNORED\033[m"
+		return
+	}
 
 	if [ "$FINISHED_ALL_TESTS_UNITY" == "0" ]
 	then
@@ -47,6 +53,16 @@ TEST_UNITY(){
 		echo -e "\033[41mFAIL\033[m"
 	fi
 	
+}
+
+TEST_IGNORE(){
+	if [ "$1" == "on" ]
+	then
+		TEST_IGNORE_UNITY="1"
+	elif [ "$1" == "off" ]
+	then
+		TEST_IGNORE_UNITY="0"
+	fi
 }
 
 TEST_MESSAGE(){
