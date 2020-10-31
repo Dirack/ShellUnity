@@ -78,8 +78,7 @@ TEST_MESSAGE(){
 TEST_ASSERT_EQUAL(){
 
 	CONDITION=$(echo "$1==$2" | bc -l)
-       	[ "$CONDITION" == "1" ] && TEST_UNITY 0 && return 0
-	TEST_UNITY 1 && return 1
+       	[ "$CONDITION" == "1" ] && TEST_UNITY 0 || TEST_UNITY 1
 }
 
 TEST_ASSERT_NOT_EQUAL(){
