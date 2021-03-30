@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+# configure (Shell Script)
+# 
+# Objetivo: Configuração das variáveis de ambiente e Makefile
+# de instalação da shellUnity.
+# 
+# Site: https://dirack.github.io
+# 
+# Versão 1.0
+# 
+# Programador: Rodolfo A C Neves (Dirack) 30/03/2021
+# 
+# Email: rodolfo_profissional@hotmail.com
+# 
+# Licença: GPL-3.0 <https://www.gnu.org/licenses/gpl-3.0.txt>.
+
+SHELLUNITY_PATH="$1"
+SHELLUNITY_PATH="${SHELLUNITY_PATH:=$PWD}"
+
+# Arquivo com as variáveis de ambiente da shellUnity
+echo '# Caminho para a biblioteca shellUnity' > env.sh
+echo "SHELLUNITY_PATH=$SHELLUNITY_PATH" >> env.sh
+
+# Adicionar o caminho à .bashrc
+echo "source $PWD/env.sh" >> ~/.bashrc
+
+# Gerar o Makefile de instalação
+echo "SHELLUNITY_PATH=$SHELLUNITY_PATH" > Makefile
+cat Makefile.in >> Makefile
+ 
