@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ../src/shellUnity
+source $SHELLUNITY_PATH/shellUnity
 
 soma(){
 	RES=$(echo "$1+$2" | bc -l)

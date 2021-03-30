@@ -20,7 +20,7 @@ SHELLUNITY_PATH="${SHELLUNITY_PATH:=$PWD}"
 
 # Arquivo com as variáveis de ambiente da shellUnity
 echo '# Caminho para a biblioteca shellUnity' > env.sh
-echo "SHELLUNITY_PATH=$SHELLUNITY_PATH" >> env.sh
+echo "export SHELLUNITY_PATH=$SHELLUNITY_PATH" >> env.sh
 
 # Adicionar o caminho à .bashrc
 echo "source $PWD/env.sh" >> ~/.bashrc
