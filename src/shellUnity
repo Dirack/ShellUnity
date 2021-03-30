@@ -8,11 +8,11 @@
 # 
 # Versão 1.0
 # 
-# Programador:  Rodolfo A C Neves (Dirack) 30/10/2020
+# Programador: Rodolfo A C Neves (Dirack) 30/10/2020
 # 
 # Email: rodolfo_profissional@hotmail.com
 # 
-# Licença: .
+# Licença: GPL-3.0 <https://www.gnu.org/licenses/gpl-3.0.txt>.
 
 trap RESULT_UNITY exit
 
@@ -122,4 +122,44 @@ TEST_ASSERT_EQUAL_STRING(){
 
 	[ "$1" == "$2" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
 
+}
+
+TEST_FILE_FIND(){
+	[ -f "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+}
+
+TEST_DIR_FIND(){
+	[ -d "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+}
+
+TEST_FILE_X(){
+	[ -x "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+}
+
+TEST_FILE_W(){
+	[ -w "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+}
+
+TEST_FILE_R(){
+	[ -r "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+}
+
+TEST_ISATTY(){
+	[ -t "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+}
+
+TEST_FILE_NEWER(){
+	[ "$1" -nt "$2" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+}
+
+TEST_FILE_OLDER(){
+	[ "$1" -ot "$2" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+}
+
+TEST_FILE_EQUAL(){
+	[ "$1" -ef "$2" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+}
+
+TEST_FILE_EMPTY(){
+	[ ! -s "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
 }
