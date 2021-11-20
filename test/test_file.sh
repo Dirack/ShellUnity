@@ -14,7 +14,7 @@
 # 
 # Licença: GPL-3.0 <https://www.gnu.org/licenses/gpl-3.0.txt>.
 
-source $SHELLUNITY_PATH/shellUnity
+source ../src/shellunity
 
 TMPFILE="/tmp/shellUnity_teste.txt"
 TMPEMPTYFILE="/tmp/shellUnity_empty.txt"

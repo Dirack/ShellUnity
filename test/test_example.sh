@@ -14,7 +14,7 @@
 # 
 # Licença: GPL-3.0 <https://www.gnu.org/licenses/gpl-3.0.txt>.
 
-source shellunity
+source ../src/shellunity
 
 soma(){
 	RES=$(echo "$1+$2" | bc -l)
