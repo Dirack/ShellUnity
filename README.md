@@ -9,64 +9,13 @@
 Esta biblioteca em Shell Script contém um conjunto de funções para teste unitário de scripts. São funções
 básicas para verificar igualdade entre variáveis do Shell e strings, bem como verificar se arquivos e diretórios
 existem e etc.
-Para utilizar a shellUnity basta instalar a biblioteca e
-depois adicionar o seguinte comando ao início dos seus scripts de teste:
+Para utilizar a shellUnity basta carregar a biblioteca presente no arquivo 'src/shellunity' no shell script com o comando source:
 
 ```sh
-source $SHELLUNITY_PATH/shellUnity
+source shellUnity
 ```
 
-A saída esperada de um teste da shellUnity é:
-
-```sh
-./test_example.sh 
-./test_example.sh:24:INFO: Mensagem qualquer
-./test_example.sh:27:TEST_ASSERT_EQUAL:PASS
-./test_example.sh:28:TEST_PASS:PASS
-./test_example.sh:29:PASS: Mensagem passou
-./test_example.sh:29:TEST_PASS_MESSAGE:PASS
-./test_example.sh:30:TEST_ASSERT_NOT_EQUAL:PASS
-./test_example.sh:31:TEST_ASSERT_TRUE:PASS
-./test_example.sh:32:TEST_ASSERT_FALSE:PASS
-./test_example.sh:33:TEST_ASSERT_EQUAL_STRING:PASS
-./test_example.sh:36:INFO: TESTES IGNORADOS
-./test_example.sh:38:TEST_PASS:IGNORED
-./test_example.sh:39:TEST_FAIL:IGNORED
-./test_example.sh:43:TEST_ASSERT_EQUAL:FAIL
-./test_example.sh:44:TEST_FAIL:FAIL
-./test_example.sh:45:FAIL: Mensagem falhou
-./test_example.sh:45:TEST_FAIL_MESSAGE:FAIL
-./test_example.sh:46:TEST_ASSERT_NOT_EQUAL:FAIL
-./test_example.sh:47:TEST_ASSERT_TRUE:FAIL
-./test_example.sh:48:TEST_ASSERT_FALSE:FAIL
-./test_example.sh:49:TEST_ASSERT_EQUAL_STRING:FAIL
-
------------------------
-16 Tests 7 Failures 2 Ignored
-FAIL
-```
-
-## Instalação
-
-* Rodar o script configure para configurar
-as variáveis de ambiente passando como argumento o local onde
-será instalada a biblioteca, exemplo:
-
-```sh    
-~$ ./configure $HOME
-```
-
-Para instalar a shellUnity em $HOME.
-
-O Script configure irá gerar um 'Makefile' de instalação tomando o arquivo 'Makefile.in' como
-template. As variáveis de ambiente serão escritas em 'env.sh'. Uma linha será adicionada ao
-arquivo $HOME/.bashrc para carregar as variáveis definidas em 'env.sh'.
-
-* Para concluir a instalação em $HOME, basta rodar o comando:
-
-```sh
-~$ make install
-```
+[Para uma explicação detalhada, visite o nosso wiki](https://github.com/Dirack/Shellinclude/wiki)
 
 ## Sobre
 
