@@ -1,0 +1,259 @@
+.TH SHELLUNITY-DEV "17 ABR 2022" "Versão 0.1.0" "SHELLUNITY-DEV Manual de uso"
+
+.SH NOME
+shellunity-dev - Asserções da shellunity (Tutorial)
+
+.SH DESCRIÇÃO
+.PP
+Nos tutoriais a seguir tem vários exemplos de como utilizar as asserções da biblioteca shellunity. Experimente colocar o código dos exemplos em um script chamado 'testeshellunity.sh', dar permissão de execução e rodar com o seguinte comando do shell:
+
+	chmod +x testeshellunity.sh
+
+	./testeshellunity.sh
+
+.SH ASSERÇÕES SIMPLES
+.BR TEST_PASS
+
+Esta é a asserção mais simples da shellunity. A chamada TEST_PASS faz o teste passar. Basta utilizar como no exemplo a seguir, a primeira linha do script carrega a biblioteca a segunda linha faz um teste passar:
+
+	source shellunity
+
+	TEST_PASS
+
+.BR TEST_FAIL
+
+Esta asserção fará o contrário da asserção TEST_PASS, ou seja, fará um teste falhar ao ser chamada. Basta utilizar como no exemplo a seguir, a primeira linha do script carrega a biblioteca a segunda linha faz um teste falhar:
+
+	source shellunity
+
+	TEST_FAIL
+
+.BR TEST_ASSERT_EQUAL
+
+Esta asserção é utilizada para testar a igualdade entre dois números. Basta passar dois números para serem comparados pela função:
+
+	source shellunity
+
+	TEST_ASSERT_EQUAL 10 10
+
+Este teste irá passar pois o número 10 é igual a 10. Todavia, esta função é melhor utilizada para testar o retorno de funções. Exemplo, crie uma função SOMA que retorna a soma de dois números e em seguida teste o retorno da função:
+
+source shellunity
+
+	SOMA(){
+		RES=$(echo "$1+$2" | bc -l)
+		echo "$RES"
+	}
+
+	TEST_ASSERT_EQUAL 10 "$(SOMA 1 9)"
+
+Este teste também irá passar, pois 10 é igual a soma de 1 mais 9.
+
+.BR TEST_ASSERT_NOT_EQUAL
+
+Esta asserção verifica a diferença entre os dois valores passados como argumento. É o oposto de TEST_ASSERT_EQUAL, ou seja, serve para verificar se os valores são diferentes. Exemplo, crie uma função SOMA que retorna a soma de dois números e em seguida teste o retorno da função:
+
+	source shellunity
+
+	SOMA(){
+		RES=$(echo "$1+$2" | bc -l)
+		echo "$RES"
+	}
+
+	TEST_ASSERT_NOT_EQUAL 10 "$(SOMA 1 1)"
+
+Este teste também irá passar, pois 10 é diferente da soma de 1 mais 1.
+
+.BR TEST_MESSAGE
+
+Esta asserção serve para exibir uma mensagem qualquer na tela do terminal durante a execução dos testes. A sua utilização é trivial, basta utilizar:
+
+	source shellunity
+
+	TEST_MESSAGE "Mensagem qualquer"
+
+Para exibir a frase "Mensagem qualquer" na tela do terminal.
+
+.BR TEST_PASS_MESSAGE
+
+Esta asserção faz o teste passar, exatamente como a asserção TEST_PASS, e exibe uma mensagem na tela do terminal. Exemplo, utilize o script a seguir para fazer o teste passar e exibir a mensagem "Mensagem teste passou":
+
+	source shellunity
+
+	TEST_PASS_MESSAGE "Mensagem teste passou"
+
+.BR TEST_FAIL_MESSAGE
+
+Esta asserção faz o teste passar, exatamente como a asserção TEST_FAIL, e exibe uma mensagem na tela do terminal. Exemplo, utilize o script a seguir para fazer o teste passar e exibir a mensagem "Mensagem teste falhou":
+
+	source shellunity
+
+	TEST_FAIL_MESSAGE "Mensagem teste falhou"
+
+.BR TEST_ASSERT_TRUE
+
+Esta asserção verifica se a condição passada através de uma string é verdadeira. Utilize como no exemplo a seguir:
+
+	source shellunity
+
+	TEST_ASSERT_TRUE "2==2"
+
+Este teste irá passar, pois 2 é igual a 2.
+
+.BR TEST_ASSERT_FALSE
+
+Esta asserção verifica se a condição passada através de uma string é falsa. Utilize como no exemplo a seguir:
+
+	source shellunity
+
+	TEST_ASSERT_FALSE "2==3"
+
+Este teste irá passar, pois 2 é diferente de 3. Portanto a condição passada, 2 igual a 3, é falsa.
+
+.BR TEST_ASSERT_EQUAL_STRING
+
+Esta asserção verifica a igualdade entre duas strings. Utilize como no exemplo
+
+	source shellunity
+
+	TEST_ASSERT_EQUAL_STRING "Rodolfo" "Rodolfo"
+
+Este teste irá passar, pois a string "Rodolfo" é igual a string "Rodolfo".
+TEST_IGNORE on/off
+
+A shellunity utiliza chaves para ligar e desligar a suíte de testes. Basta passar o parâmetro 'on' para TEST_IGNORE para ligar a chave, e todos os testes a partir desta linha serão ignorados. Para desligar a chave e passar a realizar os testes, basta passar o parâmetro 'off' para TEST_IGNORE. Como no exemplo a seguir, os testes que estiverem entre as chaves 'TEST_IGNORE on' e 'TEST_IGNORE off' serão ignorados:
+
+	source shellunity
+
+	TEST_IGNORE on # Ligar a chave para ignorar testes
+
+	TEST_PASS
+
+	TEST_FAIL
+
+	TEST_IGNORE off # Desligar a chave para ignorar testes
+
+.SH ASSERÇÕES DE ARQUIVOS
+
+.BR TEST_FILE_FIND
+
+Esta asserção é utilizada para verificar se um arquivo existe. Basta passar o caminho absoluto do arquivo como no exemplo a seguir:
+
+	source shellunity
+
+	TEST_FILE_FIND "test_file.sh"
+
+Neste exemplo, a asserção verifica se o arquivo "test_file.sh" existe no diretório atual.
+
+.BR TEST_DIR_FIND
+
+Esta asserção é utilizada para verificar se um diretório existe. Basta passar o caminho absoluto do diretório como no exemplo a seguir:
+
+	source shellunity
+
+	TEST_DIR_FIND "dir"
+
+Neste exemplo, a asserção verifica se o diretório "dir" existe no diretório atual.
+
+.BR TEST_FILE_X
+
+Esta asserção verifica se o arquivo tem permissão de execução. Basta utilizar como no exemplo a seguir:
+
+	source shellunity
+
+	TEST_FILE_X "test_file.sh"
+
+.BR TEST_FILE_R
+
+Esta asserção verifica se o arquivo tem permissão de leitura. Basta utilizar como no exemplo a seguir:
+
+	source shellunity
+
+	TEST_FILE_R "test_file.sh"
+
+.BR TEST_FILE_W
+
+Esta asserção verifica se o arquivo tem permissão de escrita. Basta utilizar como no exemplo a seguir:
+
+	source shellunity
+
+	TEST_FILE_W "test_file.sh"
+
+.BR TEST_ISATTY
+
+Esta asserção é utilizada para verificar se a stream de dados passada está conectada a um terminal. Para verificar se a stdin, a stdout e a stderr estão conectadas a um terminal, respectivamente, utilize como no exemplo a seguir:
+
+	source shellunity
+
+	TEST_ISATTY "0"
+	TEST_ISATTY "1"
+	TEST_ISATTY "2"
+
+O valor passado corresponde ao file descriptor (um número inteiro que identifica a stream de dados ou arquivo em sistemas operacionais unix). Os valores padrão para para stdin, stdout,e stderr:
+
+	0 : stdin
+	1 : stdout
+	2 : stderr
+
+.BR TEST_FILE_NEWER
+
+Esta asserção serve para verificar se o primeiro arquivo passado é mais novo que o segundo. Basta utilizar como no exemplo:
+
+	source shellunity
+
+	TEST_FILE_NEWER "primeiro.sh" "segundo.sh"
+
+.BR TEST_FILE_OLDER
+
+Esta asserção serve para verificar se o primeiro arquivo passado é mais velho que o segundo. Basta utilizar como no exemplo:
+
+	source shellunity
+
+	TEST_FILE_OLDER "primeiro.sh" "segundo.sh"
+
+.BR TEST_FILE_EQUAL
+
+Esta asserção serve para verificar se o primeiro arquivo passado igual ao segundo (tem o mesmo conteúdo, são arquivos idênticos com nomes de arquivo diferentes ou iguais). Basta utilizar como no exemplo:
+
+	source shellunity
+
+	TEST_FILE_EQUAL "primeiro.sh" "segundo.sh"
+
+.BR TEST_FILE_EMPTY
+
+Esta asserção serve para verificar se o arquivo passado está vazio. Basta utilizar:
+
+	source shellunity
+
+	TEST_FILE_EMPTY "arquivovazio.txt"
+
+.SH SUGESTÕES E 'BUG REPORTS'
+Qualquer bug encontrado deve ser reportado para o repositório do Github da Biblioteca ShellUnity na aba 'issues' em:
+
+	https://github.com/Dirack/ShellUnity/issues
+
+E deve-se notificar por email o responsável pela manutenção do código:
+
+	rodolfo_profissional@hotmail.com (Rodolfo Dirack).
+
+Quando reportar um bug é importante explicitar em que situação este foi produzido
+para que possa ser reproduzido pelo autor, a versão do programa e toda informação
+relevante será bem vinda.
+
+.SH AUTORES
+Rodolfo A. C. Neves (Dirack), e o Grupo de Programação Aplicada à Geofísica (GPGEOF).
+
+Contato:
+
+-Página no github (Dirack) https://github.com/Dirack
+
+-Página no github (GPGEOF) https://github.com/gpgeof.
+
+.SH VEJA TAMBÉM
+.BR shellunity(1)
+.BR shellunity-dev(1)
+
+Visite o nosso canal de divulgação científica no Youtube (Geofisicando) em:
+
+	https://www.youtube.com/channel/UCi5XD5PCQtPrIRD0H_GJvag
+

@@ -1,0 +1,88 @@
+.TH SHELLUNITY "17 ABR 2022" "Versão 0.1.0" "SHELLUNITY Manual de uso"
+
+.SH NOME
+shellunity - Framework de testes unitários em Shell Script
+
+.SH DESCRIÇÃO
+.PP
+Esta biblioteca é um framework de testes unitários em Shell Script contém um conjunto de funções para teste unitário de scripts. São funções básicas para verificar igualdade entre variáveis do Shell e strings, bem como verificar se arquivos e diretórios existem e etc. A shellUnity é baseada no projeto Unity, um framework para testes unitários em C.
+
+.SH INSTALAÇÃO
+A forma mais simples de utilizar a shellunity é chamando a biblioteca de funções no início do Shell Script:
+
+	source shellunity
+
+As funções serão carregadas e estarão disponíveis na memória no momento da execução do script com a suíte de testes. A biblioteca pode ser encontrada na pasta 'shellunity/src' deste repositório.
+
+.SH TUTORIAL (QUICK START)
+.PP
+Vá para a pasta raíz do repositório e crie o seguinte shell script com o nome 'olashellunity.sh':
+
+	#!/bin/bash
+
+	source src/shellunity
+
+	TEST_MESSAGE "Meu primeiro teste com shellunity!"
+
+Basta dar permissão de execução e rodar o script com o comandos a seguir:
+
+	chmod +x olashellunity.sh
+
+	./olashellunity
+
+O primeiro comando do script carrega as definições das funções da biblioteca na memória a partir do arquivo 'src/shellunity'. A linha seguinte é para chamar a função para exibir uma mensagem na tela "Meu primeiro teste com shellunity!". A saída esperada será:
+
+	./olashellunity.sh
+
+	./olashellunity.sh:5:INFO: Meu primeiro teste com shellunity!
+
+	-----------------------
+
+	0 Tests 0 Failures 0 Ignored
+
+	PASS
+
+Exibindo a mensagem e indicando que todos os testes passaram (mensagem padrão PASS).
+
+.SH EXEMPLOS DE USO
+.PP
+Você encontrará mais exemplos de uso das funções da shellunity e suítes de testes prontas na pasta 'shellunity/test'. Basta dar permissão de execução aos scripts da pasta, e rodar como no exemplo a seguir:
+
+	chmod +x script.sh
+
+	./script.sh
+
+Estes scripts são exemplos de uso das asserções disponíveis da biblioteca shellunity. Para uma documentação detalhada das asserções consulte o nosso tutorial de usuário na página shellunity-user(1).
+
+.SH FILES
+A shellunity é carregada a partir do arquivo 'shellunity' dentro da pasta 'src' deste repositório. Basta carregar este arquivo no seu Shell Script com o comando source e as asserções estarão disponíveis.
+
+.SH SUGESTÕES E 'BUG REPORTS'
+Qualquer bug encontrado deve ser reportado para o repositório do Github da Biblioteca ShellUnity na aba 'issues' em:
+
+	https://github.com/Dirack/ShellUnity/issues
+
+E deve-se notificar por email o responsável pela manutenção do código:
+
+	rodolfo_profissional@hotmail.com (Rodolfo Dirack).
+
+Quando reportar um bug é importante explicitar em que situação este foi produzido
+para que possa ser reproduzido pelo autor, a versão do programa e toda informação
+relevante será bem vinda.
+
+.SH AUTORES
+Rodolfo A. C. Neves (Dirack), e o Grupo de Programação Aplicada à Geofísica (GPGEOF).
+
+Contato:
+
+-Página no github (Dirack) https://github.com/Dirack
+
+-Página no github (GPGEOF) https://github.com/gpgeof.
+
+.SH VEJA TAMBÉM
+.BR shellunity-user(1),
+.BR shellunity-dev(1)
+
+Visite o nosso canal de divulgação científica no Youtube (Geofisicando) em:
+
+	https://www.youtube.com/channel/UCi5XD5PCQtPrIRD0H_GJvag

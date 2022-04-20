@@ -1,0 +1,317 @@
+.TH SHELLUNITY-DEV "17 ABR 2022" "Versão 0.1.0" "SHELLUNITY-DEV Manual de uso"
+
+.SH NOME
+shellunity-dev - Documentação do desenvolvedor
+
+.SH VARIÁVEIS GLOBAIS
+A biblioteca shellunity utiliza as seguintes variáveis globais:
+
+.BR NUMBER_OF_TESTS_UNITY,
+armazena o número total de testes realizados.
+
+.BR NUMBER_OF_FAILURES_UNITY,
+armazena o número total de testes que falharam.
+
+.BR NUMBER_OF_IGNORED_UNITY,
+armazena o número total de testes ignorados
+
+.BR FINISHED_ALL_TESTS_UNITY,
+variável de controle para indicar se os testes foram finalizados. Seu valor é igual a zero se ainda faltar testes para realizar.
+
+.BR TEST_IGNORE_UNITY,
+configura a função TEST_UNITY para ignorar todos os testes se estiver definida como 1, ou para realizar todos os testes se estiver definida como 0.
+
+
+.SH PRINCIPAIS FUNÇÕES
+
+.BR TEST_UNITY
+
+Esta é a principal função da biblioteca shellunity e que manipula as variáveis globais com os contadores dos testes realizados, que falharam e os ignorados. A cada chamada a esta função, o número total de testes em $NUMBER_OF_TESTS_UNITY é incrementado uma unidade. Se a variável $TEST_IGNORE_UNITY estiver configurada igual a 1, o teste é ignorado e a função incrementa o número de testes ignorados em $NUMBER_OF_IGNORED_UNITY e retorna. Esta lógica é implementada nas linhas a seguir:
+
+	NUMBER_OF_TESTS_UNITY=$((NUMBER_OF_TESTS_UNITY+1))
+
+	[ "$TEST_IGNORE_UNITY" == "1" ] && {
+
+		NUMBER_OF_IGNORED_UNITY=$((NUMBER_OF_IGNORED_UNITY+1))
+
+		echo -e "$0:$2:$3:\033[43mIGNORED\033[m"
+
+		return
+
+	}
+
+O resultado esperado deste trecho é como no exemplo a seguir:
+
+	./test_example.sh:38:TEST_PASS:IGNORED
+
+O restante do código da função TEST_UNITY está condicionado pela variável TEST_IGNORE_UNITY ser igual a 0, pois caso contrário a função irá retornar na condicional apresentada acima. O restante da função está condicionado pela variável FINISHED_ALL_TESTS_UNITY que é igual a 0 se todos os testes da suíte de testes ainda não foram realizados. Assim, a função exibe o nome do programa principal da suíte de testes, o número da linha onde o teste foi chamado e o tipo de teste armazenados em $0, $2 e $3, respectivamente, como a seguir:
+
+	if [ "$FINISHED_ALL_TESTS_UNITY" == "0" ]
+
+	then 
+
+		echo -n "$0:$2:$3:"
+
+	fi      
+
+O resultado esperado deste trecho de código é o seguinte:
+
+	./test_example.sh:49:TEST_ASSERT_EQUAL_STRING:
+
+	./test_example.sh:33:TEST_ASSERT_EQUAL_STRING:
+
+Por fim, a função exibe PASS ou FAIL após as informações exibidas acima, indicando se o teste passou ou não, a depender da variável $1 passada à função TEST_UNITY. Se $1 foi passada com um valor diferente de zero, oque indica que o teste falhou, TEST_UNITY incrementa o valor da variável global $NUMBER_OF_FAILURES_UNITY em uma unidade antes de exibir FAIL na tela do terminal.
+
+	if [ "$1" == "0" ]
+
+	then 
+
+		echo -e "\033[42mPASS\033[m"
+
+	else    
+
+		NUMBER_OF_FAILURES_UNITY=$((NUMBER_OF_FAILURES_UNITY+1))
+
+		echo -e "\033[41mFAIL\033[m"
+
+	fi
+
+O resultado completo é apresentado a seguir:
+
+	./test_example.sh:49:TEST_ASSERT_EQUAL_STRING:FAIL
+
+	./test_example.sh:33:TEST_ASSERT_EQUAL_STRING:PASS
+
+.BR RESULT_UNITY
+
+Esta função é chamada ao final da execução da suíte de testes, como estabelecido utilizando o comando trap a seguir:
+
+	trap RESULT_UNITY exit
+
+O objetivo da função RESULT_UNITY é exibir a contagem final dos casos de testes, apresentando o total dos testes realizados, os testes que falharam (se houver falha em algum teste) e o número de testes ignorados. Para tanto, a função utiliza os valores armazenados nas variáveis globais $NUMBER_OF_TESTS_UNITY, $NUMBER_OF_FAILURES_UNITY, e $NUMBER_OF_IGNORED_UNITY. O resultado esperado a seguir:
+
+	-----------------------
+
+	16 Tests 7 Failures 2 Ignored
+
+	FAIL
+
+As duas últimas linhas da função RESULT_UNITY, apresentadas a seguir, servem para verificar se todos os testes passaram ou se algum teste falhou, fazer a chamada à função TEST_UNITY para imprimir FAIL ou SUCCES na tela e encerrar com o status de execução 0 ou 1, respectivamente. Basta que um dos testes falhe para o status de execução retornado ser 1.
+
+	[ "$NUMBER_OF_FAILURES_UNITY" -eq "0" ] && TEST_UNITY 0 && exit 0
+
+	TEST_UNITY 1 && exit 1
+
+
+.SH ASSERÇÕES BÁSICAS
+.BR TEST_IGNORE
+
+A função TEST_IGNORE é utilizada para ignorar um bloco de testes. Esta funciona por meio de uma chave "on/off" recebida através do parâmetro $1 que altera a variável global TEST_IGNORE_UNITY. Quando a variável TEST_IGNORE_UNITY é igual a 1 os testes são ignorados pela função principal TEST_UNITY, quando esta variável é igual a 0 os testes são realizados e considerados pela função TEST_UNITY. A utilização da função TEST_IGNORE ocorre como no exemplo de uso a seguir:
+
+	TEST_IGNORE on # Ligar a chave para ignorar testes
+
+	TEST_ASSERT_TRUE "2==2" #... testes ignorado
+
+	TEST_ASSERT_FALSE "2==3" #... teste ignorado
+
+	TEST_ASSERT_FALSE "3==3" #... teste ignorado
+
+	TEST_IGNORE off # Desligar a chave para ignorar testes
+
+	# Os testes a seguir serão realizados
+
+	TEST_ASSERT_TRUE "2==2" #... testes realizado
+
+	TEST_ASSERT_FALSE "3==3" #... teste realizado
+
+Esta manipulação da variável global TEST_IGNORE_UNITY ocorre dentro de um bloco if simples a depender do parâmetro $1 passado a função TEST_IGNORE_UNITY.
+
+	TEST_IGNORE(){
+
+		if [ "$1" == "on" ]
+
+		then
+
+			TEST_IGNORE_UNITY="1"
+
+		elif [ "$1" == "off" ]
+
+		then
+
+			TEST_IGNORE_UNITY="0"
+
+		fi
+
+	}
+
+.BR TEST_MESSAGE
+
+Esta função exibe uma mensagem na tela do terminal durante os testes. Basta chamar a função e passar a mensagem a ser exibida. Como não há chamada à função TEST_UNITY, nenhum teste é contabilizado quando esta função é chamada. A saída esperada segue abaixo:
+
+	./test_example.sh:24:INFO: Mensagem qualquer
+
+.BR TEST_FAIL
+
+Esta função faz o teste falhar quando chamada. Para tanto, ela chama TEST_UNITY internamente passando o status 1 (teste falhou) como variável $1. A função TEST_FAIL a seguir:
+
+	TEST_FAIL(){
+
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+
+	}
+
+.BR TEST_FAIL_MESSAGE
+
+Esta função faz o teste falhar semelhante a função TEST_FAIL, mas antes exibe uma mensagem de falha passada pelo usuário.
+
+.BR TEST_PASS
+
+Esta função faz o teste passar quando chamada. Para tanto, ela chama TEST_UNITY internamente passando o status 0 (teste passou) como variável $1. A função TEST_PASS a seguir:
+
+	TEST_PASS(){
+
+	    TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME"
+
+	}
+
+.BR TEST_PASS_MESSAGE
+
+Esta função faz o teste passar semelhante a função TEST_PASS, mas antes exibe uma mensagem passada pelo usuário.
+
+.SH ASSERÇÕES
+
+.BR TEST_ASSERT_EQUAL
+
+Esta função serve para verificar igualdade entre dois números recebidos através de $1 e $2. Internamente, esta comparação é realizada com a calculadora bc e retornada para a variável $CONDITION como 1 se os números são iguais e 0 se são diferentes. Daí basta chamar a função TEST_UNITY com o status de execução 0 se $CONDITION é 1 e 1 se $CONDITION é 0.
+
+.BR TEST_ASSERT_NOT_EQUAL
+
+Esta função serve para verificar desigualdade entre dois números recebidos através de $1 e $2. Esta função funciona da mesma forma que a função TEST_ASSERT_EQUAL, porém a condição de verificação é a diferença '!=' e não a igualdade '==' entre os dois números passados. Daí basta chamar a função TEST_UNITY com o status de execução 0 se $CONDITION é 1 (Os números são diferentes) e 1 se $CONDITION é 0 (os números são iguais).
+
+.BR TEST_ASSERT_TRUE
+
+Esta função funciona de modo semelhante a TEST_ASSERT_EQUAL, porém a condicional é passada diretamente através de $1.
+
+.BR TEST_ASSERT_FALSE
+
+Esta função funciona de modo semelhante a TEST_ASSERT_NOT_EQUAL, porém a condicional é passada diretamente através de $1.
+
+.BR TEST_ASSERT_EQUAL_STRING
+
+A verificação de strings é trivial em shell, basta utilizar a seguinte condicional:
+
+	[ "$1" == "$2" ]
+
+E daí retornar o status para a função TEST_UNITY, 0 se forem iguais e 1 se forem diferentes.
+
+.SH ASSERÇÕES PARA ARQUIVOS E DIRETÓRIOS
+
+.BR TEST_FILE_FIND
+
+Verifica se o arquivo existe utilizando a seguinte condicional:
+
+	[ -f "$1" ]
+
+E daí retorna o status para a função TEST_UNITY, 0 se o arquivo existir e 1 se o arquivo não existir.
+
+.BR TEST_DIR_FIND
+
+Esta asserção verifica se o diretório existe utilizando a seguinte condicional do shell:
+
+	[ -d "$1" ]
+
+E daí retorna o status para a função TEST_UNITY, 0 se o diretório existir e 1 se o diretório não existir.
+
+.BR TEST_FILE_X
+
+Esta asserção serve para verificar se o arquivo possui permissão de execução a partir da seguinte condicional do shell:
+
+	[ -x "$1" ]
+
+E daí retorna o status para a função TEST_UNITY, 0 se o arquivo tiver permissão de execução e 1 se o arquivo não tiver permissão de execução.
+
+.BR TEST_FILE_W
+
+Esta asserção serve para verificar se o arquivo possui permissão de escrita a partir da seguinte condicional do shell:
+
+	[ -w "$1" ]
+
+E daí retorna o status para a função TEST_UNITY, 0 se o arquivo tiver permissão de escrita e 1 se o arquivo não tiver permissão de escrita.
+
+.BR TEST_FILE_R
+
+Esta asserção serve para verificar se o arquivo possui permissão de leitura a partir da seguinte condicional do shell:
+
+	[ -r "$1" ]
+
+E daí retorna o status para a função TEST_UNITY, 0 se o arquivo tiver permissão de leitura e 1 se o arquivo não tiver permissão de leitura.
+
+.BR TEST_ISATTY
+
+Esta asserção verifica se a stream de dados passada é um terminal a partir da seguinte condicional do shell:
+
+	[ -t "$1" ]
+
+E daí retorna o status para a função TEST_UNITY, 0 se a stream de dados for um terminal e 1 se a stream de dados não for um terminal.
+
+.BR TEST_FILE_NEWER
+
+Esta asserção verifica se o primeiro arquivo $1 é mais novo que o segundo arquivo $2 utilizando a seguinte condicional do shell:
+
+	[ "$1" -nt "$2" ]
+
+E daí retorna o status para a função TEST_UNITY, 0 se o primeiro arquivo for mais novo que o segundo e 1 se o primeiro arquivo não for mais novo que o segundo.
+
+.BR TEST_FILE_OLDER
+
+Esta asserção verifica se o primeiro arquivo $1 é mais velho que o segundo arquivo $2 utilizando a seguinte condicional do shell:
+
+	[ "$1" -ot "$2" ]
+
+E daí retorna o status para a função TEST_UNITY, 0 se o primeiro arquivo for mais velho que o segundo e 1 se o primeiro arquivo não for mais velho que o segundo.
+
+.BR TEST_FILE_EQUAL
+
+Esta asserção verifica se o primeiro arquivo $1 é o mesmo arquivo $2 passado utilizando a seguinte condicional do shell (útil para verificar se $2 é um hardlink para $1 e vice-versa):
+
+	[ "$1" -ef "$2" ]
+
+E daí retorna o status para a função TEST_UNITY, 0 se o primeiro arquivo $1 for o mesmo arquivo em $2 e 1 se o primeiro arquivo $1 não for o mesmo arquivo em $2.
+
+.BR TEST_FILE_EMPTY
+
+Esta asserção verifica se o arquivo passado está vazio utilizando a seguinte condicional do shell:
+
+	[ ! -s "$1" ]
+
+E daí retorna o status para a função TEST_UNITY, 0 se o arquivo está vazio e 1 se o arquivo não está vazio.
+
+.SH SUGESTÕES E 'BUG REPORTS'
+Qualquer bug encontrado deve ser reportado para o repositório do Github da Biblioteca ShellUnity na aba 'issues' em:
+
+	https://github.com/Dirack/ShellUnity/issues
+
+E deve-se notificar por email o responsável pela manutenção do código:
+
+	rodolfo_profissional@hotmail.com (Rodolfo Dirack).
+
+Quando reportar um bug é importante explicitar em que situação este foi produzido
+para que possa ser reproduzido pelo autor, a versão do programa e toda informação
+relevante será bem vinda.
+
+.SH AUTORES
+Rodolfo A. C. Neves (Dirack), e o Grupo de Programação Aplicada à Geofísica (GPGEOF).
+
+Contato:
+
+-Página no github (Dirack) https://github.com/Dirack
+
+-Página no github (GPGEOF) https://github.com/gpgeof.
+
+.SH VEJA TAMBÉM
+.BR shellunity(1),
+.BR shellunity-user(1)
+
+Visite o nosso canal de divulgação científica no Youtube (Geofisicando) em:
+
+	https://www.youtube.com/channel/UCi5XD5PCQtPrIRD0H_GJvag
