@@ -24,7 +24,7 @@ jobs:
 
       - name: Test shellunity from script
         run: |
-          echo -e "source src/shellunity\nTEST_MESSAGE Meu primeiro teste com shellunity" > teste.sh
+          echo -e "source src/shellunity\nTEST_MESSAGE 'Meu primeiro teste com shellunity'" > teste.sh
           chmod +x teste.sh
           ./teste.sh
   build:
@@ -72,7 +72,7 @@ jobs:
       - name: Upload changelog artifact
         uses: actions/upload-artifact@v4
         with:
-          name: package
+          name: Debian
           path: /tmp/debian
           retention-days: 0
   deploy:
@@ -81,8 +81,6 @@ jobs:
     needs: delivery
 
     steps:
-      - name: teste
-        run: echo "${{github.ref}}"
       - uses: actions/checkout@v4
       
       - name: Create a debian package
@@ -109,5 +107,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: /tmp/debian.zip
-          asset_name: debian.zip
+          asset_name: Debian Package (deb)
           asset_content_type: application/zip
