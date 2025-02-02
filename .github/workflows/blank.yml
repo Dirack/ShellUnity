@@ -1,0 +1,23 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install shellunity
+        run: cp src/shellunity /usr/bin
+
+      - name: Test shellunity
+        run: |
+          echo -n "#!/bin/bash\nsource src/shellunity\nTEST_MESSAGE 'Meu primeiro teste com shellunity!'" > teste.sh
+          chmod +x teste.sh
+          ./teste.sh
