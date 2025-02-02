@@ -65,12 +65,12 @@ jobs:
         run: |
           cd infra/build
           ./debianize.sh
-          mv *.deb /tmp
+          mkdir debian; mv *.deb debian; mv debian /tmp
       - name: Upload changelog artifact
         uses: actions/upload-artifact@v4
         with:
           name: package
-          path: /tmp/shellunity_*.deb
+          path: /tmp/debian
           retention-days: 0
       - name: Create Release
         id: create_release
@@ -83,3 +83,13 @@ jobs:
           body: Test release
           draft: true
           prerelease: true
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: /tmp/debian
+          asset_name: debian
+          asset_content_type: application/deb
