@@ -77,6 +77,8 @@ jobs:
     needs: delivery
 
     steps:
+      - uses: actions/checkout@v4
+      
       - name: Create a debian package
         run: |
           cd infra/build
