@@ -92,4 +92,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: /tmp/debian
           asset_name: debian
-          asset_content_type: application/deb
+          asset_content_type: application/zip
