@@ -77,10 +77,12 @@ jobs:
           retention-days: 0
   deploy:
     runs-on: ubuntu-latest
-    if: ${{github.ref == 'v*'}}
+    if: "${{github.ref != 'v*'}}"
     needs: delivery
 
     steps:
+      - name: teste
+        run: echo "${{github.ref}}"
       - uses: actions/checkout@v4
       
       - name: Create a debian package
