@@ -15,7 +15,7 @@ Para utilizar a shellUnity basta carregar a biblioteca presente no arquivo 'src/
 source shellUnity
 ```
 
-[Para uma explicação detalhada, visite o nosso wiki](https://github.com/Dirack/Shellinclude/wiki)
+[Para uma explicação detalhada, visite o nosso wiki](https://github.com/Dirack/shellUnity/wiki#bem-vindo-ao-shellunity-wiki)
 
 ## Sobre
 
@@ -33,6 +33,6 @@ Distribuído sob a licença GPL3. Veja `LICENSE` para mais informações.
 4. _Push_ (`git push origin feature/fooBar`)
 5. Crie um novo _Pull Request_
 
-[Para uma explicação detalhada, visite a página Contribua do nosso wiki](https://github.com/Dirack/Shellinclude/wiki/Contribua)
+[Para uma explicação detalhada, visite a página Contribua do nosso wiki](https://github.com/Dirack/shellUnity/wiki/contribua#como-contribuir-com-este-projeto)
 
 #### Importante: O histórico de suas modificações deve ser claro, com mensagens de commit de um a dois parágrafos descrevendo cada modificação. _Pull Requests_ com histórico de commits insuficiente serão rejeitados.
