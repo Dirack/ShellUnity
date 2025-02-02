@@ -21,6 +21,6 @@ jobs:
 
       - name: Test shellunity
         run: |
-          echo -n "#!/bin/bash\nsource src/shellunity\nTEST_MESSAGE 'Meu primeiro teste com shellunity!'" > teste.sh; ls
+          echo -n "#!/bin/bash\nsource src/shellunity\nTEST_MESSAGE 'Meu primeiro teste com shellunity!'" > teste.sh; cat teste.sh
           ls; chmod +x teste.sh
           ls; ./teste.sh
