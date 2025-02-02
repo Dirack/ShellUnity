@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  unit-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,11 +16,22 @@ jobs:
       - name: Install shellunity
         run: sudo cp src/shellunity /usr/bin
 
-      - name: Test shellunity
+      - name: Test shellunity from cmd
         run: source shellunity; TEST_MESSAGE 'Meu primeiro teste com shellunity!'
 
-      - name: Test shellunity
+      - name: Test shellunity from script
         run: |
-          echo -e "source src/shellunity\nTEST_MESSAGE Meu primeiro teste com shellunity" > teste.sh; cat teste.sh
-          ls; chmod +x teste.sh
-          ls; ./teste.sh
+          echo -e "source src/shellunity\nTEST_MESSAGE Meu primeiro teste com shellunity" > teste.sh
+          chmod +x teste.sh
+          ./teste.sh
+  debianize:
+    runs-on: ubuntu-latest
+    needs: unit-tests
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create a debian package
+        run: |
+          cd infra/build
+          ./debianize.sh; ls
