@@ -77,7 +77,7 @@ jobs:
           retention-days: 0
   deploy:
     runs-on: ubuntu-latest
-    if: "${{github.ref != 'v*'}}"
+    if: "${{github.ref == 'v*'}}"
     needs: delivery
 
     steps:
