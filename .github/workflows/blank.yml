@@ -17,6 +17,9 @@ jobs:
         run: sudo cp src/shellunity /usr/bin
 
       - name: Test shellunity
+        run: source shellunity; TEST_MESSAGE 'Meu primeiro teste com shellunity!'
+
+      - name: Test shellunity
         run: |
           echo -n "#!/bin/bash\nsource src/shellunity\nTEST_MESSAGE 'Meu primeiro teste com shellunity!'" > teste.sh
           chmod +x teste.sh
