@@ -82,7 +82,7 @@ jobs:
 
     steps:
       - name: teste
-        run: echo "${{github.ref}}"
+        run: echo "${{github.ref != 'v*'}}"
       - uses: actions/checkout@v4
       
       - name: Create a debian package
