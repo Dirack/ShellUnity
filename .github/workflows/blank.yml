@@ -37,14 +37,14 @@ jobs:
           ./debianize.sh
           
       - name: Install debian package
-        run: cd infra/build; ls; PACKAGE=$(ls *.deb); sudo dpkg -i ./$PACKAGE
+        run: cd infra/build; PACKAGE=$(ls *.deb); sudo dpkg -i ./$PACKAGE
           
       - name: Test shellunity from cmd
         run: source shellunity; TEST_MESSAGE 'Meu primeiro teste com shellunity!'
 
       - name: Test shellunity from script
         run: |
-          echo -e "source shellunity\nTEST_MESSAGE Meu primeiro teste com shellunity" > teste.sh
+          echo -e "source shellunity\nTEST_MESSAGE 'Meu primeiro teste com shellunity'" > teste.sh
           chmod +x teste.sh
           ./teste.sh
           
@@ -66,7 +66,7 @@ jobs:
           cd infra/build
           ./debianize.sh
       - name: Upload changelog artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: package
           path: ./*.deb
