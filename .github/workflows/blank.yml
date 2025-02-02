@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI/CD
 
 # Controls when the workflow will run
 on:
@@ -24,7 +24,7 @@ jobs:
           echo -e "source src/shellunity\nTEST_MESSAGE Meu primeiro teste com shellunity" > teste.sh
           chmod +x teste.sh
           ./teste.sh
-  debianize:
+  build:
     runs-on: ubuntu-latest
     needs: unit-tests
 
@@ -34,4 +34,40 @@ jobs:
       - name: Create a debian package
         run: |
           cd infra/build
-          ./debianize.sh; ls
+          ./debianize.sh
+          
+      - name: Install debian package
+        run: sudo dpkg -i ./*.deb
+          
+      - name: Test shellunity from cmd
+        run: source shellunity; TEST_MESSAGE 'Meu primeiro teste com shellunity!'
+
+      - name: Test shellunity from script
+        run: |
+          echo -e "source shellunity\nTEST_MESSAGE Meu primeiro teste com shellunity" > teste.sh
+          chmod +x teste.sh
+          ./teste.sh
+          
+      - name: Test documentation installation
+        run: |
+          man -f shellunity; man -w shellunity
+          man -f shellunity-dev; man -w shellunity-dev
+          man -f shellunity-user; man -w shellunity-user
+          
+  delivery:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create a debian package
+        run: |
+          cd infra/build
+          ./debianize.sh
+      - name: Upload changelog artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: ./*.deb
+          retention-days: 0
