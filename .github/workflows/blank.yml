@@ -37,7 +37,7 @@ jobs:
           ./debianize.sh
           
       - name: Install debian package
-        run: sudo dpkg -i ./*.deb
+        run: PACKAGE=$(ls *.deb); sudo dpkg -i ./$PACKAGE
           
       - name: Test shellunity from cmd
         run: source shellunity; TEST_MESSAGE 'Meu primeiro teste com shellunity!'
