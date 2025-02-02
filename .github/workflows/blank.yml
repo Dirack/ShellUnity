@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Install shellunity
-        run: cp src/shellunity /usr/bin
+        run: sudo cp src/shellunity /usr/bin
 
       - name: Test shellunity
         run: |
