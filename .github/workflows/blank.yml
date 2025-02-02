@@ -65,10 +65,10 @@ jobs:
         run: |
           cd infra/build
           ./debianize.sh
-          mkdir package; mv *.deb package; mv package /tmp
+          mv *.deb /tmp
       - name: Upload changelog artifact
         uses: actions/upload-artifact@v4
         with:
           name: package
-          path: /tmp/package
+          path: /tmp/shellunity_*.deb
           retention-days: 0
