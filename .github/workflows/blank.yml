@@ -4,6 +4,9 @@ name: CI/CD
 
 # Controls when the workflow will run
 on:
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
 
 jobs:
@@ -74,6 +77,7 @@ jobs:
           retention-days: 0
   deploy:
     runs-on: ubuntu-latest
+    if: ${{github.ref == 'v*'}}
     needs: delivery
 
     steps:
