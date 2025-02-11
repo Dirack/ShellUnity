@@ -31,8 +31,8 @@ mkdir bin
 cp ../../src/shellunity bin
 
 mkdir -p docs
-cp -r ../../doc docs
-mv docs/doc docs/man1
+cp -r ../../docs docs
+mv docs/docs docs/man1
 
 mkdir -p ${PACKAGENAME}_${VERSION}_all/DEBIAN
 
