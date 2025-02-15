@@ -99,7 +99,9 @@ jobs:
           zip --junk-paths debian.zip *.deb; mv debian.zip /tmp
 
       - name: Build Release notes
-        run: git tag -n10 --list ${{ github.ref_name }}
+        run: |
+          git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+          git tag -l --format='%(contents)' ${{ github.ref_name }}
           
       - name: Build a changelog
         run: ./infra/scripts/prepare_release_msg.sh >> ./release.md
