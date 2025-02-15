@@ -97,15 +97,18 @@ jobs:
           cd infra/build
           ./debianize.sh
           zip --junk-paths debian.zip *.deb; mv debian.zip /tmp
+
+      - name: Build Release notes
+        run: git tag -n10 --list "${{ github.ref }}" >> ./release.md
           
       - name: Build a changelog
-        run: ./infra/scripts/prepare_release_msg.sh >> ./changelog.md
+        run: ./infra/scripts/prepare_release_msg.sh >> ./release.md
 
       - name: Upload changelog artifact
         uses: actions/upload-artifact@v4
         with:
           name: changelog
-          path: ./changelog.md
+          path: ./release.md
           retention-days: 0
                                 
       - name: Create Release
@@ -116,7 +119,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          body_path: ./changelog.md
+          body_path: ./release.md
           draft: true
           prerelease: true
       - name: Upload Release Asset
