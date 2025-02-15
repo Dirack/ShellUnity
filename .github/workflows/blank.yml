@@ -113,7 +113,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          body: Test release
+          body_path: ./changelog.md
           draft: true
           prerelease: true
       - name: Upload Release Asset
