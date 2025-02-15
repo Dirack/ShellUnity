@@ -96,7 +96,15 @@ jobs:
           zip --junk-paths debian.zip *.deb; mv debian.zip /tmp
           
       - name: Build a changelog
-        run: ./infra/scripts/prepare_release_msg.sh
+        run: ./infra/scripts/prepare_release_msg.sh >> ./changelog.md
+
+      - name: Upload changelog artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: changelog
+          path: ./changelog.md
+          retention-days: 0
+                                
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
