@@ -3,7 +3,7 @@
 # Generate current release message based on active develop branch name
 
 CURRENTVERSION=$(git tag | sort -r | tr '\n' ' ' | cut -d" " -f1)
-#$(cat $(dirname $0)/../../docs/VERSION.md)
+
 LATESTVERSION=$(git tag | sort -r | tr '\n' ' ' | cut -d" " -f2)
 
 GITLOG=$(git log "...$LATESTVERSION" --oneline)
