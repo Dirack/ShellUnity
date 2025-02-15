@@ -16,9 +16,21 @@ VERSIONDOC=$(cat docs/VERSION.md)
 
 if [ "$VERSIONDOC" == "$CURRENTVERSION" ]; then
 	echo "Version checked (VERSION.md file): $VERSIONDOC"
-	exit 0
 else
-	echo "Package version in VERSION.md file does not seem correct!"
+	echo "ERROR: Package version in VERSION.md file does not seem correct!"
 	echo "Version from VERSION.md file: $VERSIONDOC"
 	exit 1
 fi
+
+for doc in $(ls docs/shellunity*)
+do
+	docversion=$(sed -n '/Versão/p' $doc)
+	docversion=$(echo ${docversion##*Versão} | cut -d"\"" -f1)
+	if [ "$docversion" != "$CURRENTVERSION" ]; then
+		echo "ERROR: Document version found in ${doc} does not seem correct!"
+		echo "Document version: ${docversion}"
+		echo "Current version: ${CURRENTVERSION}"
+		exit 1
+	fi
+	echo "Version checked (${doc} file): $docversion"
+done
