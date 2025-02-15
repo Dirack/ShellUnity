@@ -85,16 +85,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
       
       - name: Create a debian package
         run: |
           cd infra/build
           ./debianize.sh
           zip --junk-paths debian.zip *.deb; mv debian.zip /tmp
-      - name: Fetch tags
-        run: |
-          echo "Fetch tags"
-          git fetch --tags
+          
       - name: Build a changelog
         run: ./infra/scripts/prepare_release_msg.sh
       - name: Create Release
