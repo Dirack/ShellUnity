@@ -4,7 +4,7 @@
 
 # Set up the following variables based on your package
 PACKAGENAME=shellunity
-VERSION=0.2.0
+VERSION=$(git tag | sort -r | tr '\n' ' ' | cut -d" " -f1)
 BIN=bin
 MANUALS="docs/man1"
 DESCRIPTION="Framework de testes unitários em Shell Script"
