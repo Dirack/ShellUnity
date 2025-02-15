@@ -94,7 +94,7 @@ jobs:
       - name: Fetch tags
         run: |
           echo "Fetch tags"
-          git fetch --tags --force
+          git fetch --tags
       - name: Build a changelog
         run: ./infra/scripts/prepare_release_msg.sh
       - name: Create Release
