@@ -13,23 +13,42 @@ echo ""
 echo "[Description]"
 echo ""
 
-echo "## Added"
-echo "$(echo "$GITLOG" | grep -E "\[(feat|test)\]" | sed 's/^/- /')"
-echo ""
+ADDED=$(echo "$GITLOG" | grep -E "\[(feat|test)\]" | sed 's/^/- /')
+if [ -n "$ADDED" ]
+then
+    echo "## Added"
+    echo "$ADDED"
+    echo ""
+fi
 
-echo "## Changed"
-echo "$(echo "$GITLOG" | grep -E "\[(perf|docs)\]" | sed 's/^/- /')"
-echo ""
+CHANGED=$(echo "$GITLOG" | grep -E "\[(perf|docs)\]" | sed 's/^/- /')
+if [ -n "$CHANGED" ]
+then
+    echo "## Changed"
+    echo "$CHANGED"
+    echo ""
+fi
 
-echo "## Fixed"
-echo "$(echo "$GITLOG" | grep -E "\[(fix)\]" | sed 's/^/- /')"
-echo ""
+FIXED=$(echo "$GITLOG" | grep -E "\[(fix)\]" | sed 's/^/- /')
+if [ -n "$FIXED" ]
+then
+    echo "## Fixed"
+    echo "$FIXED"
+    echo ""
+fi
 
-echo "## Removed"
-echo "$(echo "$GITLOG" | grep -E "\[(revert)\]" | sed 's/^/- /')"
-echo ""
+REMOVED=$(echo "$GITLOG" | grep -E "\[(revert)\]" | sed 's/^/- /')
+if [ -n "$REMOVED" ]
+then
+    echo "## Removed"
+    echo "$REMOVED"
+    echo ""
+fi
 
-echo "## Development"
-echo "$(echo "$GITLOG" | grep -E "\[(build|chore|refactor|style)\]" | sed 's/^/- /')"
-echo ""
-
+DEVELOPMENT=$(echo "$GITLOG" | grep -E "\[(build|chore|refactor|style)\]" | sed 's/^/- /')
+if [ -n "$DEVELOPMENT" ]
+then
+    echo "## Development"
+    echo "$DEVELOPMENT"
+    echo ""
+fi
