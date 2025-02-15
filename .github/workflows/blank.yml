@@ -99,7 +99,7 @@ jobs:
         run: ./infra/scripts/prepare_release_msg.sh >> ./changelog.md
 
       - name: Upload changelog artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: changelog
           path: ./changelog.md
