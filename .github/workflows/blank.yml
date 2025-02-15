@@ -99,7 +99,7 @@ jobs:
           zip --junk-paths debian.zip *.deb; mv debian.zip /tmp
 
       - name: Build Release notes
-        run: git tag -n10 --list "${{ github.ref }}" >> ./release.md
+        run: git tag -n10 --list ${{ github.ref }}
           
       - name: Build a changelog
         run: ./infra/scripts/prepare_release_msg.sh >> ./release.md
