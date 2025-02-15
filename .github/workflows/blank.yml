@@ -88,6 +88,9 @@ jobs:
         with:
           fetch-depth: 0
           fetch-tags: true
+
+      - name: Check version
+        run: ./infra/scripts/version_check.sh
       
       - name: Create a debian package
         run: |
