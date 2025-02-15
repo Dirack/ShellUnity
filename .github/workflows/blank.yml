@@ -80,7 +80,7 @@ jobs:
           retention-days: 0
   deploy:
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags')
+    #if: startsWith(github.ref, 'refs/tags')
     needs: delivery
 
     steps:
@@ -91,6 +91,8 @@ jobs:
           cd infra/build
           ./debianize.sh
           zip --junk-paths debian.zip *.deb; mv debian.zip /tmp
+      - name: Build a changelog
+        run: ./infra/scripts/prepare_release_msg.sh
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
