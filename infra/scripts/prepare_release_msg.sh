@@ -5,7 +5,8 @@
 set -xv
 
 CURRENTVERSION=$(cat $(dirname $0)/../../docs/VERSION.md)
-LATESTVERSION=$(git describe --tags --abbrev=0)
+LATESTVERSION=$(git tag | sort -r | tr '\n' ' ' | cut -d" " -f2)
+#git describe --tags --abbrev=0)
 GITLOG=$(git log "$LATESTVERSION...HEAD" --oneline)
 
 echo "$CURRENTVERSION - [Summary]"
