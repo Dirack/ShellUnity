@@ -8,11 +8,6 @@ LATESTVERSION=$(git tag | sort -r | tr '\n' ' ' | cut -d" " -f2)
 
 GITLOG=$(git log "...$LATESTVERSION" --oneline)
 
-echo "$CURRENTVERSION - [Summary]"
-echo ""
-echo "[Description]"
-echo ""
-
 ADDED=$(echo "$GITLOG" | grep -E "\[(feat|test)\]" | sed 's/^/- /')
 if [ -n "$ADDED" ]
 then
