@@ -5,6 +5,7 @@
 # Set up the following variables based on your package
 PACKAGENAME=shellunity
 VERSION=$(git tag | sort -r | tr '\n' ' ' | cut -d" " -f1)
+VERSION=${VERSION##*v}
 BIN=bin
 MANUALS="docs/man1"
 DESCRIPTION="Framework de testes unitários em Shell Script"
