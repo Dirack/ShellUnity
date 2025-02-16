@@ -17,7 +17,7 @@ DEPENDS="bash"
 
 if [ -z "$VERSION" ]
 then
-	VERSION="v$(cat ../../docs/VERSION.md)-dev"
+	VERSION="$(cat ../../docs/VERSION.md)-dev"
 fi
 
 CONTROL="Package: ${PACKAGENAME:=mypackage}
