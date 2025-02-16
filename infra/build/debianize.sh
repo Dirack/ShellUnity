@@ -15,6 +15,11 @@ BUGS="<https://github.com/Dirack/ShellUnity/issues>"
 HOMEPAGE="<https://github.com/Dirack/ShellUnity/wiki>"
 DEPENDS="bash"
 
+if [ -z "$VERSION" ]
+then
+	VERSION="v$(cat ../../docs/VERSION.md)-dev"
+fi
+
 CONTROL="Package: ${PACKAGENAME:=mypackage}
 Version: ${VERSION:=0.0.0-dev}
 Architecture: all
