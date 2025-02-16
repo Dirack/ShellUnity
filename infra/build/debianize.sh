@@ -16,7 +16,7 @@ HOMEPAGE="<https://github.com/Dirack/ShellUnity/wiki>"
 DEPENDS="bash"
 
 CONTROL="Package: ${PACKAGENAME:=mypackage}
-Version: ${VERSION:=0.1.0}
+Version: ${VERSION:=0.0.0-dev}
 Architecture: all
 Priority: optional
 Essential: no
