@@ -1,8 +1,8 @@
-# shellUnity
+# ShellUnity
+
+[![Github release](https://img.shields.io/github/v/release/Dirack/ShellUnity)](https://github.com/Dirack/ShellUnity/releases/latest) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Madagascar](https://img.shields.io/badge/Madagascar-v3.0-blue)](https://github.com/ahay/src/tree/master)
 
 > Framework de testes unitários para Shell Script
-
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 <img src="https://github.com/Dirack/shellUnity/blob/main/res/superuser-superhero.jpg" width="500">
 
