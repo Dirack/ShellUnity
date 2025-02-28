@@ -77,7 +77,12 @@ TEST_UNITY(){
 		NUMBER_OF_FAILURES_UNITY=$((NUMBER_OF_FAILURES_UNITY+1))
 		if [ "$VERBOSE" == "1" ]
 		then
-			echo -e "${RED}FAIL${END}: $4"
+			MSG="$4"
+			if [ -n "$4" ]
+			then
+				MSG=": $MSG"
+			fi
+			echo -e "${RED}FAIL${END}$MSG"
 		else
 			echo -e "${RED}FAIL${END}"
 		fi
