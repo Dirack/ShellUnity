@@ -24,7 +24,7 @@ TEST_IGNORE_UNITY="0"
 
 for PARAM in "$@"
 do
-	case "$1" in
+	case "$PARAM" in
 
 		-c | --color)
 			YELLOW="\033[43m"
@@ -34,7 +34,7 @@ do
 		;;
 
 		-v | --verbose)
-			## TODO: Implementar modo verbose na shellunity
+			VERBOSE="1"
 		;;
 
 		*)
@@ -75,7 +75,13 @@ TEST_UNITY(){
 		echo -e "${GREEN}PASS${END}"
 	else
 		NUMBER_OF_FAILURES_UNITY=$((NUMBER_OF_FAILURES_UNITY+1))
-		echo -e "${RED}FAIL${END}"
+		if [ "$VERBOSE" == "1" ]
+		then
+			echo -e "${RED}FAIL${END}: $4"
+		else
+			echo -e "${RED}FAIL${END}"
+		fi
+
 	fi
 	
 }
@@ -121,7 +127,8 @@ TEST_PASS_MESSAGE(){
 TEST_ASSERT_EQUAL(){
 
 	CONDITION=$(echo "$1==$2" | bc -l)
-       	[ "$CONDITION" == "1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+       	[ "$CONDITION" == "1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+			TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "Expected $1 Was $2"
 }
 
 TEST_ASSERT_NOT_EQUAL(){
