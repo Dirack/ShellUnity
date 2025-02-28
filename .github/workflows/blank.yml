@@ -106,7 +106,7 @@ jobs:
           git tag -l --format='%(contents:body)' ${{ github.ref_name }} >> ./release.md
           
       - name: Build a changelog
-        run: ./infra/scripts/prepare_release_msg.sh >> ./release.md
+        run: bash -xv ./infra/scripts/prepare_release_msg.sh >> ./release.md
 
       - name: Upload changelog artifact
         uses: actions/upload-artifact@v4
