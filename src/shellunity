@@ -22,6 +22,31 @@ NUMBER_OF_IGNORED_UNITY="0"
 FINISHED_ALL_TESTS_UNITY="0"
 TEST_IGNORE_UNITY="0"
 
+for PARAM in "$@"
+do
+	case "$1" in
+
+		-c | --color)
+			YELLOW="\033[43m"
+			GREEN="\033[42m"
+			RED="\033[41m"
+			END="\033[m"
+		;;
+
+		-v | --verbose)
+			## TODO: Implementar modo verbose na shellunity
+		;;
+
+		*)
+			YELLOW=""
+			GREEN=""
+			RED=""
+			END=""
+		;;
+
+	esac
+done	
+
 RESULT_UNITY(){
 	
 	FINISHED_ALL_TESTS_UNITY="1"
@@ -36,7 +61,7 @@ TEST_UNITY(){
 	NUMBER_OF_TESTS_UNITY=$((NUMBER_OF_TESTS_UNITY+1))
 	[ "$TEST_IGNORE_UNITY" == "1" ] && {
 		NUMBER_OF_IGNORED_UNITY=$((NUMBER_OF_IGNORED_UNITY+1))
-		echo -e "$0:$2:$3:\033[43mIGNORED\033[m"
+		echo -e "$0:$2:$3:${YELLOW}IGNORED${END}"
 		return
 	}
 
@@ -47,10 +72,10 @@ TEST_UNITY(){
 
 	if [ "$1" == "0" ] 
 	then
-		echo -e "\033[42mPASS\033[m"
+		echo -e "${GREEN}PASS${END}"
 	else
 		NUMBER_OF_FAILURES_UNITY=$((NUMBER_OF_FAILURES_UNITY+1))
-		echo -e "\033[41mFAIL\033[m"
+		echo -e "${RED}FAIL${END}"
 	fi
 	
 }
