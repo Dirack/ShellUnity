@@ -4,9 +4,7 @@
 # 
 # Objetivo: Framework de testes unitários para Shell Script.
 # 
-# Site: https://dirack.github.io
-# 
-# Versão 1.0
+# Site: https://www.geofisicando.com
 # 
 # Programador: Rodolfo A C Neves (Dirack) 30/10/2020
 # 
@@ -139,64 +137,79 @@ TEST_ASSERT_EQUAL(){
 TEST_ASSERT_NOT_EQUAL(){
 
 	CONDITION=$(echo "$1!=$2" | bc -l)
-        [ "$CONDITION" == "1" ]	&& TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+        [ "$CONDITION" == "1" ]	&& TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+			TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "Expected $1 not equal $2"
 }
 
 TEST_ASSERT_TRUE(){
 
 	CONDITION=$(echo "$1" | bc -l)
-	[ "$CONDITION" == "1" ]	&& TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+	[ "$CONDITION" == "1" ]	&& TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "Expected TRUE Was FALSE"
 
 }
 
 TEST_ASSERT_FALSE(){
 
 	CONDITION=$(echo "$1" | bc -l)
-	[ "$CONDITION" == "0" ]	&& TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+	[ "$CONDITION" == "0" ]	&& TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "Expected FALSE Was TRUE"
 }
 
 TEST_ASSERT_EQUAL_STRING(){
 
-	[ "$1" == "$2" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+	[ "$1" == "$2" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" \
+			"Expected $1 Was $2\n$(diff -d -u <( printf '%s\n' "$1" ) <( printf '%s\n' "$2" ) | sed -n '3,$p')"
 
 }
 
 TEST_FILE_FIND(){
-	[ -f "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+	[ -f "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "File $1 not found"
 }
 
 TEST_DIR_FIND(){
-	[ -d "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+	[ -d "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "Directory $1 not found"
 }
 
 TEST_FILE_X(){
-	[ -x "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+	[ -x "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "Permission X not enabled for $1"
 }
 
 TEST_FILE_W(){
-	[ -w "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+	[ -w "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "Permission W not enabled for $1"
 }
 
 TEST_FILE_R(){
-	[ -r "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+	[ -r "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "Permission R not enabled for $1"
 }
 
 TEST_ISATTY(){
-	[ -t "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+	[ -t "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME"	||
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "$1 is not a TTY"
 }
 
 TEST_FILE_NEWER(){
-	[ "$1" -nt "$2" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+	[ "$1" -nt "$2" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "Expected $1 newer than $2"
 }
 
 TEST_FILE_OLDER(){
-	[ "$1" -ot "$2" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+	[ "$1" -ot "$2" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "Expected $1 older than $2"
 }
 
 TEST_FILE_EQUAL(){
-	[ "$1" -ef "$2" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+	[ "$1" -ef "$2" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "Expected file $1 equal to file $2"
 }
 
 TEST_FILE_EMPTY(){
-	[ ! -s "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" || TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME"
+	[ ! -s "$1" ] && TEST_UNITY 0 "$BASH_LINENO" "$FUNCNAME" ||
+		TEST_UNITY 1 "$BASH_LINENO" "$FUNCNAME" "Expected file $1 empty"
 }
